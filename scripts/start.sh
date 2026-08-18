@@ -146,7 +146,7 @@ fi
 EXISTING_PID=""
 if command -v lsof >/dev/null 2>&1; then
     # macOS
-    EXISTING_PID=$(lsof -ti ":"${PORT}" 2>/dev/null || true)
+    EXISTING_PID=$(lsof -ti ":${PORT}" 2>/dev/null || true)
 elif command -v fuser >/dev/null 2>&1; then
     # Linux with fuser
     EXISTING_PID=$(fuser -n tcp "${PORT}" 2>/dev/null | head -n 1 || true)
@@ -165,7 +165,6 @@ if [[ -n "${EXISTING_PID}" ]]; then
         echo "    Run 'make stop' or remove the process first."
         exit 1
     fi
-fi
 fi
 
 echo "=========================================================="

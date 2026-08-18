@@ -65,8 +65,8 @@ run_automated_mode() {
     echo " Starting Server for [${upper_mode}] benchmark..."
     echo "=========================================================="
 
-    # Kill any existing llama-server (cross-platform: use kill -15 on Linux, -9 on macOS)
-    kill -15 -f llama-server 2>/dev/null || kill -9 -f llama-server 2>/dev/null || true
+    # Kill any existing llama-server (cross-platform: use pkill -15 on Linux, -9 on macOS)
+    pkill -15 -f llama-server 2>/dev/null || pkill -9 -f llama-server 2>/dev/null || true
     sleep 2
 
     # Launch server in background

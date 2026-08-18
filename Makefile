@@ -5,6 +5,7 @@ all: help
 help:
 	@echo "Local AI Coding Lab - Available Commands:"
 	@echo "  make setup          - Complete one-step setup (models, tools, opencode config)"
+	@echo "  make setup-all      - Complete setup: models, tools, opencode, start server"
 	@echo "  make start          - Start local LLM server (96K context, GPU Metal acceleration)"
 	@echo "  make restart        - Cleanly restart the local server"
 	@echo "  make start-128k     - Start server with 128K context"
@@ -21,6 +22,10 @@ help:
 
 setup:
 	@./setup.sh
+
+setup-all: setup
+	@echo "Starting llama-server (96K context, GPU Metal acceleration)..."
+	@./scripts/start.sh --baseline --ctx 98304
 
 start:
 	@./scripts/start.sh --baseline --ctx 98304
@@ -46,7 +51,7 @@ start-spec:
 	@./scripts/start.sh --speculative --ctx 32768
 
 stop:
-	@kill -15 -f llama-server 2>/dev/null || kill -9 -f llama-server 2>/dev/null || true && echo "[✓] llama-server stopped." || echo "[*] llama-server was not running."
+	@pkill -15 -f llama-server 2>/dev/null || pkill -9 -f llama-server 2>/dev/null || true && echo "[✓] llama-server stopped." || echo "[*] llama-server was not running."
 
 status:
 	@./scripts/status.sh
