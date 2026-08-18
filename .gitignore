@@ -1,0 +1,16 @@
+# Large model weights (downloaded via scripts/download_models.sh)
+models/*.gguf
+models/*.bin
+models/target.gguf
+models/draft.gguf
+
+# OS & Environment
+.DS_Store
+*.log
+.env
+.venv/
+__pycache__/
+
+# Scratch & Temporary files
+scratch/
+tmp/

@@ -1,0 +1,58 @@
+server:
+  host: "127.0.0.1"
+  port: 8080
+  parallel_requests: 1
+  flash_attention: true
+  jinja: true
+
+context:
+  size: 98304 # 96K context (~4.8 GB total RAM with Q8_0 KV Cache)
+  candidates:
+    - 32768   # 32K  (~3.8 GB total RAM)
+    - 65536   # 64K  (~4.3 GB total RAM)
+    - 98304   # 96K  (~4.8 GB total RAM)
+    - 131072  # 128K (~5.5 GB total RAM)
+
+target_model:
+  name: "Qwen3.5-4B"
+  file: "./models/target.gguf"
+  gpu_layers: 99
+  hf_repo: "unsloth/Qwen3.5-4B-GGUF"
+  hf_file: "Qwen3.5-4B-Q4_K_M.gguf"
+
+draft_model:
+  name: "Qwen3.5-0.8B"
+  file: "./models/draft.gguf"
+  gpu_layers: 99
+  hf_repo: "unsloth/Qwen3.5-0.8B-GGUF"
+  hf_file: "Qwen3.5-0.8B-Q4_K_M.gguf"
+
+speculative_decoding:
+  enabled: true
+  max_draft_tokens: 8
+  min_draft_tokens: 0
+  p_split: 0.10
+  p_min: 0.00
+
+sampling:
+  temperature: 0.2
+  top_p: 0.9
+
+opencode:
+  provider: "local"
+  model: "local/qwen3.5-4b"
+  base_url: "http://127.0.0.1:8080/v1"
+
+benchmarks:
+  target_tok_s: 30
+  runs: 2
+  prompts:
+    - name: "lru_cache"
+      language: "python"
+      prompt: "Implement a thread-safe LRU Cache in Python with O(1) get and put operations, including unit tests using pytest."
+    - name: "rest_router"
+      language: "typescript"
+      prompt: "Write a type-safe minimal REST API router in TypeScript without external libraries that supports GET, POST, route parameters, and middleware."
+    - name: "worker_pool"
+      language: "go"
+      prompt: "Implement a concurrent worker pool in Go with graceful shutdown, context cancellation, and error aggregation."

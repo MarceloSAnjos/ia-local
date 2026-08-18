@@ -1,0 +1,88 @@
+{
+  "mode": "speculative",
+  "timestamp": "2026-08-18T00:48:09Z",
+  "overall_avg_tok_s": 64.91,
+  "overall_avg_ttft_ms": 172.01,
+  "peak_ram_mb": 2485.5,
+  "target_goal_30_tok_s_met": true,
+  "results": [
+    {
+      "prompt_id": "lru_cache",
+      "prompt_name": "Thread-safe LRU Cache (Python)",
+      "avg_gen_tok_s": 66.71,
+      "avg_ttft_ms": 218.25,
+      "avg_prompt_tokens": 68.0,
+      "avg_completion_tokens": 946.0,
+      "memory_rss_mb": 2446.8,
+      "sample_output": "To implement a thread-safe LRU Cache in Python, we can use a combination of a double linked list and a hash map. The double linked list will help us maintain the order of least recently used (LRU) elements, and the hash map will allow us to quickly access elements by their keys. We'll use the `threa...",
+      "runs": [
+        {
+          "prompt_id": "lru_cache",
+          "prompt_name": "Thread-safe LRU Cache (Python)",
+          "prompt_tokens": 68,
+          "completion_tokens": 946,
+          "ttft_ms": 218.25,
+          "total_time_s": 14.4,
+          "generation_time_s": 14.18,
+          "gen_tok_per_sec": 66.71,
+          "prompt_tok_per_sec": 311.56,
+          "memory_rss_mb": 2446.8,
+          "output_sample": "To implement a thread-safe LRU Cache in Python, we can use a combination of a double linked list and a hash map. The double linked list will help us maintain the order of least recently used (LRU) elements, and the hash map will allow us to quickly access elements by their keys. We'll use the `threa...",
+          "full_output": "To implement a thread-safe LRU Cache in Python, we can use a combination of a double linked list and a hash map. The double linked list will help us maintain the order of least recently used (LRU) elements, and the hash map will allow us to quickly access elements by their keys. We'll use the `threading` module to ensure thread safety.\n\nHere's the implementation:\n\n```python\nimport threading\nfrom collections import deque\n\nclass Node:\n    def __init__(self, key, value):\n        self.key = key\n        self.value = value\n        self.prev = None\n        self.next = None\n\nclass LRUCache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.cache = {}\n        self.head = Node(0, 0)\n        self.tail = Node(0, 0)\n        self.head.next = self.tail\n        self.tail.prev = self.head\n\n    def get(self, key):\n        if key in self.cache:\n            node = self.cache[key]\n            self._remove_node(node)\n            self._add_node(node)\n            return node.value\n        return -1\n\n    def put(self, key, value):\n        if key in self.cache:\n            node = self.cache[key]\n            node.value = value\n            self._remove_node(node)\n            self._add_node(node)\n        else:\n            if len(self.cache) == self.capacity:\n                self._remove_least_recent()\n            new_node = Node(key, value)\n            self.cache[key] = new_node\n            self._add_node(new_node)\n\n    def _remove_node(self, node):\n        node.prev.next = node.next\n        node.next.prev = node.prev\n\n    def _add_node(self, node):\n        node.next = self.head.next\n        node.prev = self.head\n        self.head.next.prev = node\n        self.head.next = node\n\n    def _remove_least_recent(self):\n        least_recent = self.tail.prev\n        self._remove_node(least_recent)\n        del self.cache[least_recent.key]\n\n# Unit tests using pytest\nimport pytest\n\n@pytest.fixture\ndef lru_cache():\n    return LRUCache(2)\n\ndef test_get_and_put(lru_cache):\n    lru_cache.put(1, 1)\n    lru_cache.put(2, 2)\n    assert lru_cache.get(1) == 1\n    lru_cache.put(3, 3)\n    assert lru_cache.get(2) == -1\n    lru_cache.put(4, 4)\n    assert lru_cache.get(1) == -1\n    assert lru_cache.get(3) == 3\n    assert lru_cache.get(4) == 4\n\ndef test_capacity_limit(lru_cache):\n    lru_cache.put(1, 1)\n    lru_cache.put(2, 2)\n    lru_cache.put(3, 3)\n    assert lru_cache.get(1) == -1\n    assert lru_cache.get(2) == 2\n    assert lru_cache.get(3) == 3\n\nif __name__ == \"__main__\":\n    pytest.main()\n```\n\n### Explanation:\n\n1. **Node Class**: Represents a node in the double linked list. Each node has a key, value, and pointers to the previous and next nodes.\n\n2. **LRUCache Class**: Manages the LRU cache. It uses a hash map to store nodes by their keys and a double linked list to maintain the order of least recently used elements.\n\n3. **get Method**: Retrieves a value from the cache. If the key exists, it removes the node from its current position and adds it to the front of the list to mark it as the most recently used.\n\n4. **put Method**: Adds or updates a value in the cache. If the key already exists, it updates the value and moves the node to the front. If the cache is full, it removes the least recently used node (the node at the tail of the list).\n\n5. **_remove_node and _add_node Methods**: Helper methods to remove a node from the list and add it to the front, respectively.\n\n6. **_remove_least_recent Method**: Removes the least recently used node from the cache.\n\n7. **Unit Tests**: Use `pytest` to verify that the `get` and `put` methods work correctly, including handling capacity limits.\n\nThis implementation ensures that both `get` and `put` operations are O(1) and that the cache maintains the LRU order efficiently."
+        }
+      ]
+    },
+    {
+      "prompt_id": "rest_router",
+      "prompt_name": "Minimal Type-Safe REST Router (TypeScript)",
+      "avg_gen_tok_s": 66.42,
+      "avg_ttft_ms": 170.23,
+      "avg_prompt_tokens": 64.0,
+      "avg_completion_tokens": 910.0,
+      "memory_rss_mb": 2482.8,
+      "sample_output": "Creating a zero-dependency type-safe HTTP router in TypeScript involves defining a router class that can handle routes with path parameters, middleware chains, and async handlers. Below is a simple implementation of such a router:\n\n```typescript\ntype Middleware = (req: Request, res: Response, next: ...",
+      "runs": [
+        {
+          "prompt_id": "rest_router",
+          "prompt_name": "Minimal Type-Safe REST Router (TypeScript)",
+          "prompt_tokens": 64,
+          "completion_tokens": 910,
+          "ttft_ms": 170.23,
+          "total_time_s": 13.87,
+          "generation_time_s": 13.7,
+          "gen_tok_per_sec": 66.42,
+          "prompt_tok_per_sec": 375.95,
+          "memory_rss_mb": 2482.8,
+          "output_sample": "Creating a zero-dependency type-safe HTTP router in TypeScript involves defining a router class that can handle routes with path parameters, middleware chains, and async handlers. Below is a simple implementation of such a router:\n\n```typescript\ntype Middleware = (req: Request, res: Response, next: ...",
+          "full_output": "Creating a zero-dependency type-safe HTTP router in TypeScript involves defining a router class that can handle routes with path parameters, middleware chains, and async handlers. Below is a simple implementation of such a router:\n\n```typescript\ntype Middleware = (req: Request, res: Response, next: NextFunction) => void;\ntype Handler = (req: Request, res: Response) => void | Promise<void>;\n\ninterface Request {\n  url: string;\n  method: string;\n  params: Record<string, string>;\n}\n\ninterface Response {\n  status: (code: number) => Response;\n  json: (data: any) => void;\n}\n\ninterface NextFunction {\n  (): void;\n}\n\nclass Router {\n  private routes: { [key: string]: { method: string, handler: Handler }[] } = {};\n\n  addRoute(path: string, method: string, handler: Handler): void {\n    const routeKey = `${path}:${method}`;\n    if (!this.routes[routeKey]) {\n      this.routes[routeKey] = [];\n    }\n    this.routes[routeKey].push({ method, handler });\n  }\n\n  use(path: string, middleware: Middleware): void {\n    const routeKey = `${path}:use`;\n    if (!this.routes[routeKey]) {\n      this.routes[routeKey] = [];\n    }\n    this.routes[routeKey].push({ method: 'use', handler: middleware });\n  }\n\n  async handle(req: Request, res: Response): Promise<void> {\n    const routeKey = `${req.url}:${req.method}`;\n    if (!this.routes[routeKey]) {\n      return res.status(404).json({ error: 'Not Found' });\n    }\n\n    const route = this.routes[routeKey];\n    const middleware = route.filter(m => m.method === 'use');\n    const handler = route.filter(m => m.method !== 'use')[0];\n\n    for (const m of middleware) {\n      await m.handler(req, res, () => {});\n    }\n\n    await handler.handler(req, res);\n  }\n}\n\n// Example usage:\nconst router = new Router();\n\nrouter.use('/api', (req, res, next) => {\n  console.log('Global middleware');\n  next();\n});\n\nrouter.addRoute('/users/:id', 'GET', async (req, res) => {\n  const userId = req.params.id;\n  // Simulate fetching user data\n  const userData = { id: userId, name: `User ${userId}` };\n  res.json(userData);\n});\n\nrouter.addRoute('/users', 'POST', async (req, res) => {\n  const { name } = req.body;\n  // Simulate creating a new user\n  const newUser = { id: Date.now().toString(), name };\n  res.json(newUser);\n});\n\n// Create a simple server to test the router\nconst express = require('express');\nconst app = express();\n\napp.use(express.json());\n\napp.use('/api', (req, res, next) => {\n  console.log('Express middleware');\n  next();\n});\n\napp.get('/api/users/:id', (req, res) => {\n  router.handle(req, res);\n});\n\napp.post('/api/users', (req, res) => {\n  router.handle(req, res);\n});\n\napp.listen(3000, () => {\n  console.log('Server is running on port 3000');\n});\n```\n\n### Explanation:\n\n1. **Types**: We define types for `Middleware`, `Handler`, `Request`, and `Response` to ensure type safety.\n\n2. **Router Class**: The `Router` class maintains a map of routes, where each route is a key in the map. The value is an array of middleware and handler functions.\n\n3. **addRoute Method**: This method adds a route with a specified path and HTTP method. It checks if the route already exists and adds the handler to the appropriate array.\n\n4. **use Method**: This method adds middleware to a specific path. It checks if the route already exists and adds the middleware to the appropriate array.\n\n5. **handle Method**: This method processes the incoming request by finding the appropriate route and executing the middleware and handler functions in sequence.\n\n6. **Example Usage**: We demonstrate how to use the router with Express, adding global middleware and handling routes for GET and POST requests.\n\nThis implementation is simple and efficient, leveraging TypeScript's type system to ensure that the router is type-safe and easy to maintain."
+        }
+      ]
+    },
+    {
+      "prompt_id": "worker_pool",
+      "prompt_name": "Concurrent Worker Pool (Go)",
+      "avg_gen_tok_s": 61.59,
+      "avg_ttft_ms": 127.55,
+      "avg_prompt_tokens": 57.0,
+      "avg_completion_tokens": 862.0,
+      "memory_rss_mb": 2485.5,
+      "sample_output": "To implement a robust concurrent worker pool in Go, we can use the `sync` package for synchronization and the `context` package for managing the lifecycle of the pool. We'll also use channels to manage the work queue and the results. Here's a detailed implementation:\n\n```go\npackage workerpool\n\nimpor...",
+      "runs": [
+        {
+          "prompt_id": "worker_pool",
+          "prompt_name": "Concurrent Worker Pool (Go)",
+          "prompt_tokens": 57,
+          "completion_tokens": 862,
+          "ttft_ms": 127.55,
+          "total_time_s": 14.12,
+          "generation_time_s": 14.0,
+          "gen_tok_per_sec": 61.59,
+          "prompt_tok_per_sec": 446.88,
+          "memory_rss_mb": 2485.5,
+          "output_sample": "To implement a robust concurrent worker pool in Go, we can use the `sync` package for synchronization and the `context` package for managing the lifecycle of the pool. We'll also use channels to manage the work queue and the results. Here's a detailed implementation:\n\n```go\npackage workerpool\n\nimpor...",
+          "full_output": "To implement a robust concurrent worker pool in Go, we can use the `sync` package for synchronization and the `context` package for managing the lifecycle of the pool. We'll also use channels to manage the work queue and the results. Here's a detailed implementation:\n\n```go\npackage workerpool\n\nimport (\n\t\"context\"\n\t\"errors\"\n\t\"sync\"\n)\n\n// WorkerPool manages a pool of workers that process tasks concurrently.\ntype WorkerPool struct {\n\tworkerCount int\n\ttaskQueue   chan func()\n\twg          sync.WaitGroup\n}\n\n// NewWorkerPool creates a new WorkerPool with the specified number of workers.\nfunc NewWorkerPool(workerCount int) *WorkerPool {\n\tif workerCount <= 0 {\n\t\tpanic(\"worker count must be greater than zero\")\n\t}\n\treturn &WorkerPool{\n\t\tworkerCount: workerCount,\n\t\ttaskQueue:   make(chan func(), workerCount*10), // Buffer to prevent blocking\n\t\twg:          sync.WaitGroup{},\n\t}\n}\n\n// Start starts the worker pool and begins processing tasks.\nfunc (wp *WorkerPool) Start() {\n\tfor i := 0; i < wp.workerCount; i++ {\n\t\twp.wg.Add(1)\n\t\tgo wp.worker()\n\t}\n}\n\n// Stop gracefully shuts down the worker pool and waits for all tasks to complete.\nfunc (wp *WorkerPool) Stop() {\n\tclose(wp.taskQueue)\n\twp.wg.Wait()\n}\n\n// worker is a helper function that processes tasks from the queue.\nfunc (wp *WorkerPool) worker() {\n\tdefer wp.wg.Done()\n\tfor task := range wp.taskQueue {\n\t\ttask()\n\t}\n}\n\n// Submit adds a task to the queue for processing.\nfunc (wp *WorkerPool) Submit(task func()) error {\n\tif task == nil {\n\t\treturn errors.New(\"task cannot be nil\")\n\t}\n\tselect {\n\tcase wp.taskQueue <- task:\n\t\treturn nil\n\tdefault:\n\t\treturn errors.New(\"task queue is full\")\n\t}\n}\n\n// Wait blocks until all tasks have been processed and the pool is stopped.\nfunc (wp *WorkerPool) Wait() {\n\twp.wg.Wait()\n}\n\n// AggregateErrors collects all errors from the worker pool.\nfunc (wp *WorkerPool) AggregateErrors() error {\n\tvar errs []error\n\tfor i := 0; i < wp.workerCount; i++ {\n\t\tselect {\n\t\tcase err := <-wp.taskQueue:\n\t\t\tif err != nil {\n\t\t\t\terrs = append(errs, err)\n\t\t\t}\n\t\tdefault:\n\t\t\t// No more tasks to process, break the loop\n\t\t\tbreak\n\t\t}\n\t}\n\tif len(errs) > 0 {\n\t\treturn errors.New(\"worker pool errors: \" + errors.Join(errs).Error())\n\t}\n\treturn nil\n}\n```\n\n### Explanation:\n\n1. **WorkerPool Structure**: The `WorkerPool` struct contains:\n   - `workerCount`: The number of worker goroutines to create.\n   - `taskQueue`: A buffered channel to hold tasks. The buffer size is set to `workerCount * 10` to prevent blocking when submitting tasks.\n   - `wg`: A `sync.WaitGroup` to manage the lifecycle of worker goroutines.\n\n2. **NewWorkerPool**: Initializes a new `WorkerPool` with the specified number of workers.\n\n3. **Start**: Starts the worker pool by spawning a goroutine for each worker. Each worker reads tasks from the queue and processes them.\n\n4. **Stop**: Closes the task queue and waits for all worker goroutines to complete.\n\n5. **worker**: A helper function that processes tasks from the queue. It runs in a goroutine and continues to process tasks until the channel is closed.\n\n6. **Submit**: Adds a task to the queue. If the queue is full, it returns an error.\n\n7. **Wait**: Blocks until all tasks have been processed and the pool is stopped.\n\n8. **AggregateErrors**: Collects all errors from the worker pool by reading from the task queue until it is closed. It returns a single error containing all collected errors.\n\nThis implementation provides a robust and efficient way to manage a pool of workers in Go, handling context cancellation, graceful shutdown, and aggregated error reporting."
+        }
+      ]
+    }
+  ]
+}
