@@ -1,6 +1,6 @@
 # Local AI Coding Lab 🚀
 
-Ambiente local ultra-rápido de AI Coding para Apple Silicon (MacBook Pro M2 Pro 16 GB), otimizado para rodar com **Docker simultaneamente**, **contexto de 32K**, suporte a **Metal GPU**, **Speculative Decoding** e integração total com o **OpenCode** e IDEs compatíveis com OpenAI.
+Ambiente local de AI Coding para Apple Silicon, otimizado para rodar com **Docker simultaneamente**, **contexto de 32K**, suporte a **Metal GPU**, **Speculative Decoding** e integração total com o **OpenCode** e IDEs compatíveis com OpenAI.
 
 ---
 
