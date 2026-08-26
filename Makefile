@@ -1,4 +1,4 @@
-.PHONY: all setup start start-8k start-16k start-32k start-96k start-128k start-spec restart stop status bench test opencode clean help
+.PHONY: all setup start start-8k start-16k start-32k start-96k start-128k start-spec restart stop status bench test opencode clean help multi-model cli list-local list-hf quick
 
 all: help
 
@@ -6,26 +6,40 @@ help:
 	@echo "Local AI Coding Lab - Available Commands:"
 	@echo "  make setup          - Complete one-step setup (models, tools, opencode config)"
 	@echo "  make setup-all      - Complete setup: models, tools, opencode, start server"
-	@echo "  make start          - Start local LLM server (96K context, GPU Metal acceleration)"
-	@echo "  make restart        - Cleanly restart the local server"
-	@echo "  make start-128k     - Start server with 128K context"
-	@echo "  make start-96k      - Start server with 96K context"
-	@echo "  make start-32k      - Start server with 32K context"
-	@echo "  make start-16k      - Start server with 16K context"
-	@echo "  make start-8k       - Start server with 8K context"
-	@echo "  make start-spec     - Start server with Speculative Decoding (Target 4B + Draft 0.8B)"
+	@echo ""
+	@echo "  ======================= MULTI-MODEL ========================="
+	@echo "  make multi-model     - Run multi-model CLI (interactive)"
+	@echo "  make cli             - Run multi-model CLI (interactive)"
+	@echo "  make list-local      - List local GGUF models"
+	@echo "  make list-hf         - List Hugging Face models"
+	@echo "  make quick <prompt>  - Quick run with default model"
+	@echo "  make help            - Show all available commands"
+	@echo ""
+	@echo "  ==================== LOCAL SERVER =========================="
+	@echo "  make start          - Start local LLM server (96K context)"
 	@echo "  make stop           - Stop running llama-server"
-	@echo "  make status         - Check server status, PID and memory usage"
+	@echo "  make status         - Check server status"
 	@echo "  make opencode       - Start OpenCode interactive coding agent"
-	@echo "  make bench          - Run full comparative benchmark (tok/s, TTFT, RAM)"
-	@echo "  make test           - Send a test completion to verify OpenAI API compatibility"
+	@echo "  make bench          - Run performance benchmark"
+	@echo "  make test           - Test OpenAI API compatibility"
 
 setup:
 	@./setup.sh
 
-setup-all: setup
-	@echo "Starting llama-server (96K context, GPU Metal acceleration)..."
-	@./scripts/start.sh --baseline --ctx 98304
+multi-model:
+	@./scripts/cli.py run
+
+cli:
+	@./scripts/cli.py run
+
+list-local:
+	@./scripts/cli.py --list-local
+
+list-hf:
+	@./scripts/cli.py --list-hf
+
+quick:
+	@./scripts/cli.py "$@"
 
 start:
 	@./scripts/start.sh --baseline --ctx 98304
